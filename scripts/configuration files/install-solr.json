@@ -1,0 +1,120 @@
+{
+    "Parameters": {
+        "SolrZipPath": {
+            "Type": "string",
+            "Description": "The file path to Solr zip file"
+        },
+        "SolrRootPath": {
+            "Type": "string",
+            "Description": "The file path to the Solr instance."
+        },
+        "KeytoolDirectoryPath": {
+            "Type": "string",
+            "Description": "The path to the directory containing keytool.exe file from JDK."
+        },
+        "HostName": {
+            "Type": "string",
+            "Description": "The solr host name."
+        },
+        "CertificateName": {
+            "Type": "string",
+            "Description": "The solr certificate name."
+        },
+        "CertificatePassword": {
+            "Type": "string",
+            "Description": "The solr certificate password."
+        },
+        "CertificateDNS": {
+            "Type": "string",
+            "Description": "The solr certificate DNS."
+        },
+        "CertificateDName": {
+            "Type": "string",
+            "Description": "The solr certificate DName."
+        },
+        "CertificatePath": {
+            "Type": "string",
+            "Description": "The physical path on disk where certificates will be stored."
+        },
+        "NssmDirectoryPath": {
+            "Type": "string",
+            "Description": "The path to the directory containing nssm.exe file."
+        },
+        "SolrServiceName": {
+            "Type": "string",
+            "Description": "The name of the solr service."
+        },
+        "SolrPort": {
+            "Type": "string",
+            "Description": "The solr port."
+        }
+    },
+    "Variables": {
+        "KeytoolExePath": "[concat(parameter('KeytoolDirectoryPath'), '\\', 'keytool.exe')]",
+        "NssmExePath": "[concat(parameter('NssmDirectoryPath'), '\\', 'nssm.exe')]"
+    },
+    "Tasks": {
+        "CreatePaths": {
+            // Create the physical disk path.
+            "Type": "EnsurePath",
+            "Params": {
+                "Exists": [
+                    "[parameter('SolrRootPath')]"
+                ]
+            }
+        },
+        "ExtractSolr": {
+            // Unpack zip file.
+            "Type": "Unpack",
+            "Params": {
+                "Source": "[parameter('SolrZipPath')]",
+                "Destination": "[parameter('SolrRootPath')]"
+            }
+        },
+        "FixExtractedSolr": {
+            // Move content of solr subfolder one lvl up
+            "Type": "EnsureNoNestedSubfolder",
+            "Params": {
+                "Path": "[parameter('SolrRootPath')]"
+            }
+        },
+        "CreateCertificateForSolr": {
+            // Create certificate for solr
+            "Type": "NewJavaKeyStore",
+            "Params": {
+                "Keytool": "[variable('KeytoolExePath')]",
+                "Alias": "[parameter('CertificateName')]",
+                "Password": "[parameter('CertificatePassword')]",
+                "DNS":"[parameter('CertificateDNS')]",
+                "DName":"[parameter('CertificateDName')]",
+                "DestPathJKS":"[concat(parameter('SolrRootPath'), '\\server\\etc')]",
+                "DestPathP12":"[parameter('CertificatePath')]"
+            }
+        },
+        "ConfigureSolrCertificate": {
+            // Configure solr
+            "Type": "ConfigureSolrCertificate",
+            "Params": {
+                "SolrRootPath": "[parameter('SolrRootPath')]",
+                "Password": "[parameter('CertificatePassword')]",
+                "HostName": "[parameter('HostName')]"
+            }
+       },
+       "CreateSolrService": {
+            // Create solr service
+            "Type": "NewNssmService",
+            "Params": {
+                "Nssm": "[variable('NssmExePath')]",
+                "ServiceName": "[parameter('SolrServiceName')]",
+                "Program": "[concat(parameter('SolrRootPath'), '\\bin\\solr.cmd')]",
+                "Arguments": "[concat('start -f -p ', parameter('SolrPort'))]"
+            }
+       }
+    },
+    "Modules": [
+        "C:\\GitHub\\Square\\scripts\\modules\\Invoke-EnsureNoNestedSubfolder.psm1",
+        "C:\\GitHub\\Square\\scripts\\modules\\New-JavaKeyStore.psm1",
+        "C:\\GitHub\\Square\\scripts\\modules\\Invoke-ConfigureSolrCertificate.psm1",
+        "C:\\GitHub\\Square\\scripts\\modules\\New-NssmService.psm1"
+    ]
+}

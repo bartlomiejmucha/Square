@@ -286,3 +286,8 @@ __pycache__/
 *.btm.cs
 *.odx.cs
 *.xsd.cs
+
+# Sitecore stuff
+scripts/license.xml
+scripts/install_custom.ps1
+scripts/zips/*
