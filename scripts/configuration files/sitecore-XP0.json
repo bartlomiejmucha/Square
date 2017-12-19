@@ -302,8 +302,7 @@
                 "SiteName": "[parameter('SiteName')]",
                 "Add": [ { "HostHeader": "[parameter('SiteName')]" } ],
                 "Remove": [ { "Port": "80", "IPAddress": "*" } ]
-            },
-            "Skip": "[parameter('HostCertificateName')]"
+            }
         },
         "CreateBindingsWithThumprint": {
             // Configures the site bindings for the website.
