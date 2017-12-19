@@ -288,6 +288,5 @@ __pycache__/
 *.xsd.cs
 
 # Sitecore stuff
-scripts/license.xml
-scripts/install_custom.ps1
-scripts/zips/*
+install/license.xml
+install/zips/*
