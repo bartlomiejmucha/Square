@@ -1,0 +1,15 @@
+*.cs text=auto diff=csharp
+*.cshtml text=auto
+*.html text=auto
+*.htm text=auto
+*.css text=auto
+*.scss text=auto
+*.sass text=auto
+*.less text=auto
+*.js text=auto
+*.sql text=auto
+
+*.csproj text=auto merge=union 
+*.sln text=auto eol=crlf merge=union 
+
+*.item -text

@@ -290,3 +290,4 @@ __pycache__/
 # Sitecore stuff
 install/license.xml
 install/zips/*
+lib/license.xml
