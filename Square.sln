@@ -24,6 +24,10 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Performance", "Performance"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Square.Foundation.Performance", "src\Foundation\Performance\code\Square.Foundation.Performance.csproj", "{8BC4E1D3-2F02-49CD-8C06-5A306C314E15}"
 EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Indexing", "Indexing", "{5C6BA7CF-C018-47BC-8CE5-CA424FDA1805}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Square.Foundation.Indexing", "src\Foundation\Indexing\code\Square.Foundation.Indexing.csproj", "{A9A46F53-630C-48A7-BF43-6C479382E37D}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -34,6 +38,10 @@ Global
 		{8BC4E1D3-2F02-49CD-8C06-5A306C314E15}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{8BC4E1D3-2F02-49CD-8C06-5A306C314E15}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{8BC4E1D3-2F02-49CD-8C06-5A306C314E15}.Release|Any CPU.Build.0 = Release|Any CPU
+		{A9A46F53-630C-48A7-BF43-6C479382E37D}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{A9A46F53-630C-48A7-BF43-6C479382E37D}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{A9A46F53-630C-48A7-BF43-6C479382E37D}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{A9A46F53-630C-48A7-BF43-6C479382E37D}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -41,6 +49,8 @@ Global
 	GlobalSection(NestedProjects) = preSolution
 		{01534C3D-9AD4-461D-A7AC-35DDACE98D44} = {03007388-5649-411D-8798-C7131AC4B69E}
 		{8BC4E1D3-2F02-49CD-8C06-5A306C314E15} = {01534C3D-9AD4-461D-A7AC-35DDACE98D44}
+		{5C6BA7CF-C018-47BC-8CE5-CA424FDA1805} = {03007388-5649-411D-8798-C7131AC4B69E}
+		{A9A46F53-630C-48A7-BF43-6C479382E37D} = {5C6BA7CF-C018-47BC-8CE5-CA424FDA1805}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {42234BFB-86D3-4B26-A15A-766B5E3685B5}
