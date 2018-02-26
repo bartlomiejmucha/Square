@@ -1,0 +1,310 @@
+{
+    "Parameters": {
+        "SitecoreSiteName": {
+            "Type": "string",
+            "DefaultValue": "Sitecore",
+            "Description": "The name of the site to be deployed."
+        },
+        "SitecoreHostName": {
+            "Type": "string",
+            "Description": "The host name of sitecore website."
+        },
+        "SitecorePhysicalPath": { 
+            "Type": "string", 
+            "Description": "The site full path on disk." 
+        },
+        "SitecoreCertificateName": { 
+            "Type": "string", 
+            "Description": "The site certificate name." 
+        },
+        "XConnectSiteName": {
+            "Type": "string",
+            "DefaultValue": "XConnect",
+            "Description": "The name of the site to be removed."
+        },
+        "XConnectHostName": {
+            "Type": "string",
+            "Description": "The host name of xconnect website."
+        },
+        "XConnectPhysicalPath": { 
+            "Type": "string", 
+            "Description": "The xconnect site full path on disk." 
+        },
+        "XConnectHostCertificateName": { 
+            "Type": "string", 
+            "Description": "The xconnect site host certificate name." 
+        },
+        "XConnectClientCertificateName": { 
+            "Type": "string", 
+            "Description": "The xconnect site client certificate name." 
+        },
+        "SolrServiceName": { 
+            "Type": "string", 
+            "Description": "The name of the solr service." 
+        },
+        "SolrHostName": {
+            "Type": "string",
+            "Description": "The host name of solr."
+        },
+        "SolrPhysicalPath": { 
+            "Type": "string", 
+            "Description": "The solr full path on disk." 
+        },
+        "SolrCertificateName": {
+            "Type": "string", 
+            "Description": "The solr certificate name." 
+        },
+        "RootCertificateName": { 
+            "Type": "string", 
+            "Description": "The root certificate name." 
+        },
+        "CertPhysicalPath": { 
+            "Type": "string", 
+            "Description": "The cedrtificates folder full path on disk." 
+        },
+        "SqlServer": {
+            "Type": "string",
+            "Description": "The Sql Server where databases will be installed."
+        },
+        "SqlDbPrefix": {
+            "Type": "string",
+            "Description": "The prefix used for all Sql databases."
+        },
+        "SqlAdminUser": {
+            "Type": "string",
+            "Description": "The Sql admin user account to use when installing databases."
+        },
+        "SqlAdminPassword": {
+            "Type": "string",
+            "Description": "The Sql admin password to use when installing databases."
+        },
+        "NssmPath": { 
+            "Type": "string", 
+            "Description": "The path to the nssm.exe file." 
+        }
+    },
+    "Variables": {
+        "Security.CertificateStore": "Cert:\\Localmachine\\My",
+        "Security.Root.CertificateStore.CurrentUser": "Cert:\\CurrentUser\\My",
+        "Security.Root.CertificateStore": "cert:\\LocalMachine\\Root",
+        "Services.IndexWorker.Name": "[concat(parameter('XConnectSiteName'), '-IndexWorker')]",
+        "Services.MarketingAutomationEngine.Name": "[concat(parameter('XConnectSiteName'), '-MarketingAutomationService')]"
+    },
+    "Tasks": {
+        "StopWebsite": {
+            // Stops the sitecore website.
+            "Type": "ManageWebsite",
+            "Params": {
+                "Name": "[parameter('SitecoreSiteName')]",
+                "Action": "Stop"
+            }
+        },
+        "StopAppPool": {
+            // Stops the app pool.
+            "Type": "ManageAppPool",
+            "Params": {
+                "Name": "[parameter('SitecoreSiteName')]",
+                "Action": "Stop"
+            }
+        },
+        "RemoveWebsite": {
+            // Removes the sitecore website.
+            "Type": "RemoveWebsite",
+            "Params": {
+                "Name": "[parameter('SitecoreSiteName')]"
+            }
+        },
+        "RemoveAppPool": {
+            // Removes the app pool.
+            "Type": "RemoveAppPool",
+            "Params": {
+                "Name": "[parameter('SitecoreSiteName')]"
+            }
+        },
+        "RemoveWebsiteFolder": {
+            // Removes the website folder.
+            "Type": "RemoveFolder",
+            "Params": {
+                "Path": "[parameter('SitecorePhysicalPath')]"
+            }
+        },
+        "RemoveHostCertificate": {
+            // Removes the certificate from store.
+            "Type": "RemoveCertificate",
+            "Params": {
+                "Name": "[concat(variable('Security.CertificateStore'), '\\', GetCertificateThumbprint(parameter('SitecoreCertificateName'), variable('Security.CertificateStore')))]"
+            }
+        },
+        "StopSolrService": {
+            // Stops the solr service.
+            "Type": "StopNssmService",
+            "Params": {
+                "Nssm": "[parameter('NssmPath')]",
+                "ServiceName": "[parameter('SolrServiceName')]"
+            }
+        },
+        "RemoveSolrService": {
+            // Removes the solr service.
+            "Type": "RemoveNssmService",
+            "Params": {
+                "Nssm": "[parameter('NssmPath')]",
+                "ServiceName": "[parameter('SolrServiceName')]"
+            }
+        },
+        "RemoveSolrFolder": {
+            // Removes the solr folder.
+            "Type": "RemoveFolder",
+            "Params": {
+                "Path": "[parameter('SolrPhysicalPath')]"
+            }
+        },
+        "StopXconnectWebsite": {
+            // Stops the sitecore website.
+            "Type": "ManageWebsite",
+            "Params": {
+                "Name": "[parameter('XConnectSiteName')]",
+                "Action": "Stop"
+            }
+        },
+        "StopXConnectAppPool": {
+            // Stops the app pool.
+            "Type": "ManageAppPool",
+            "Params": {
+                "Name": "[parameter('XConnectSiteName')]",
+                "Action": "Stop"
+            }
+        },
+        "StopServices": {
+            // Stops the services if they running.
+            "Type": "ManageService",
+            "Params": [
+                {
+                    "Name": "[variable('Services.IndexWorker.Name')]",
+                    "Status": "Stopped",
+                    "PostDelay": 3000
+                },
+                {
+                    "Name": "[variable('Services.MarketingAutomationEngine.Name')]",
+                    "Status": "Stopped",
+                    "PostDelay": 3000
+                }
+            ]
+        },
+        "RemoveXConnectWebsite": {
+            // Removes the xconnect website.
+            "Type": "RemoveWebsite",
+            "Params": {
+                "Name": "[parameter('XConnectSiteName')]"
+            }
+        },
+        "RemoveXConnectAppPool": {
+            // Removes the xconnect app pool.
+            "Type": "RemoveAppPool",
+            "Params": {
+                "Name": "[parameter('XConnectSiteName')]"
+            }
+        },
+        "RemoveXconnectWebsiteFolder": {
+            // Removes the xconnect folder.
+            "Type": "RemoveFolder",
+            "Params": {
+                "Path": "[parameter('XConnectPhysicalPath')]"
+            }
+        },
+        "RemoveXConnectHostCertificate": {
+            // Removes the xconnect certificate from store.
+            "Type": "RemoveCertificate",
+            "Params": {
+                "Name": "[concat(variable('Security.CertificateStore'), '\\', GetCertificateThumbprint(parameter('XConnectHostCertificateName'), variable('Security.CertificateStore')))]"
+            }
+        },
+        "RemoveXConnectClientCertificate": {
+            // Removes the xconnect certificate from store.
+            "Type": "RemoveCertificate",
+            "Params": {
+                "Name": "[concat(variable('Security.CertificateStore'), '\\', GetCertificateThumbprint(parameter('XConnectClientCertificateName'), variable('Security.CertificateStore')))]"
+            }
+        },
+        "RemoveServices": {
+            // Removes the current service.
+            "Type": "RemoveService",
+            "Params": [
+                { "Name": "[variable('Services.IndexWorker.Name')]" },
+                { "Name": "[variable('Services.MarketingAutomationEngine.Name')]" }
+            ]
+        },
+        "RemoveRootCertificate": {
+            // Removes the root certificate from store.
+            "Type": "RemoveCertificate",
+            "Params": {
+                "Name": "[concat(variable('Security.Root.CertificateStore'), '\\', GetCertificateThumbprint(concat('DO_NOT_TRUST_', parameter('RootCertificateName')), variable('Security.Root.CertificateStore')))]"
+            }
+        },
+        "RemoveRootCertificateFromCurrentUser": {
+            // Removes the root certificate from store.
+            "Type": "RemoveCertificate",
+            "Params": {
+                "Name": "[concat(variable('Security.Root.CertificateStore.CurrentUser'), '\\', GetCertificateThumbprint(concat('DO_NOT_TRUST_', parameter('RootCertificateName')), variable('Security.Root.CertificateStore.CurrentUser')))]"
+            }
+        },
+        "RemoveSolrCertificate": {
+            // Removes the solr certificate from store.
+            "Type": "RemoveCertificate",
+            "Params": {
+                "Name": "[concat(variable('Security.Root.CertificateStore'), '\\', GetCertificateThumbprint(parameter('SolrCertificateName'), variable('Security.Root.CertificateStore')))]"
+            }
+        },
+        "RemoveCertificatesFolder": {
+            // Removes the certificates folder.
+            "Type": "RemoveFolder",
+            "Params": {
+                "Path": "[parameter('CertPhysicalPath')]"
+            }
+        },
+        "RemoveDatabases": {
+            // Removes the databases.
+            "Type": "RemoveDatabase",
+            "Params": {
+                "Server": "[parameter('SqlServer')]",
+                "User": "[parameter('SqlAdminUser')]",
+                "Password": "[parameter('SqlAdminPassword')]",
+                "Databases": [
+                    "[concat(parameter('SqlDbPrefix'),'_Core')]",
+                    "[concat(parameter('SqlDbPrefix'),'_ExperienceForms')]",
+                    "[concat(parameter('SqlDbPrefix'),'_MarketingAutomation')]",
+                    "[concat(parameter('SqlDbPrefix'),'_Master')]",
+                    "[concat(parameter('SqlDbPrefix'),'_Processing.Pools')]",
+                    "[concat(parameter('SqlDbPrefix'),'_Processing.Tasks')]",
+                    "[concat(parameter('SqlDbPrefix'),'_ReferenceData')]",
+                    "[concat(parameter('SqlDbPrefix'),'_Reporting')]",
+                    "[concat(parameter('SqlDbPrefix'),'_Web')]",
+                    "[concat(parameter('SqlDbPrefix'),'_Xdb.Collection.Shard0')]",
+                    "[concat(parameter('SqlDbPrefix'),'_Xdb.Collection.Shard1')]",
+                    "[concat(parameter('SqlDbPrefix'),'_Xdb.Collection.ShardMapManager')]"
+                ]
+            }
+        },
+        "RemoveHosts":
+        {
+            // Removes hosts from hosts file
+            "Type": "RemoveHostName",
+            "Params": {
+                "Names": [
+                    "[parameter('SitecoreHostName')]",
+                    "[parameter('XConnectHostName')]",
+                    "[parameter('SolrHostName')]"
+                ]
+            }
+        }
+    },
+    "Modules": [
+        ".\\modules\\Invoke-RemoveWebsite.psm1", 
+        ".\\modules\\Invoke-RemoveAppPool.psm1",
+        ".\\modules\\Invoke-RemoveFolder.psm1",
+        ".\\modules\\Invoke-RemoveCertificate.psm1",
+        ".\\modules\\Invoke-StopNssmService.psm1",
+        ".\\modules\\Invoke-RemoveNssmService.psm1",
+        ".\\modules\\Invoke-RemoveDatabase.psm1",
+        ".\\modules\\Invoke-RemoveHostName.psm1"
+    ]
+}
