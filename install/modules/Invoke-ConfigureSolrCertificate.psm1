@@ -30,7 +30,10 @@ Function Invoke-ConfigureSolrCertificate {
     $solrincmdText = $solrincmdText.Replace("REM set SOLR_SSL_NEED_CLIENT_AUTH=false", "set SOLR_SSL_NEED_CLIENT_AUTH=false")
     $solrincmdText = $solrincmdText.Replace("REM set SOLR_SSL_WANT_CLIENT_AUTH=false", "set SOLR_SSL_WANT_CLIENT_AUTH=true")
 
-    [System.IO.File]::WriteAllText($solrincmdPath, $solrincmdText)
+    if($PSCmdlet.ShouldProcess($SolrRootPath, 'Configuring solr certificate'))
+    {
+        [System.IO.File]::WriteAllText($solrincmdPath, $solrincmdText)
+    }
 }
 
 Register-SitecoreInstallExtension -Command Invoke-ConfigureSolrCertificate -As ConfigureSolrCertificate -Type Task

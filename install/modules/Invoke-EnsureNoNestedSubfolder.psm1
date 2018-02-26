@@ -15,12 +15,15 @@ Function Invoke-EnsureNoNestedSubfolder {
     #if there is only one directory inside than move it one level up
     if ($files.Length -eq 0 -and $directories.Length -eq 1)
     {
-        Write-TaskInfo -Message "Nested subfolder $directories[0] moved up." -Tag 'Clean'
+        if($PSCmdlet.ShouldProcess($Path, 'Removing nested subfolder')) 
+        {
+            Write-TaskInfo -Message "Nested subfolder $directories[0] moved up." -Tag 'Clean'
 
-        [System.IO.Directory]::GetDirectories($directories[0]) | foreach { Move-Item $_ $Path }
-        [System.IO.Directory]::GetFiles($directories[0]) | foreach { Move-Item $_ $Path }
+            [System.IO.Directory]::GetDirectories($directories[0]) | foreach { Move-Item $_ $Path }
+            [System.IO.Directory]::GetFiles($directories[0]) | foreach { Move-Item $_ $Path }
 
-        Remove-Item $directories[0]
+            Remove-Item $directories[0]
+        }
     }
 }
 

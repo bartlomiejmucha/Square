@@ -32,13 +32,16 @@ Function New-JavaKeyStore {
 
     Process {
 
-        & $Keytool -genkeypair -alias $Alias -keyalg RSA -keysize 2048 -keypass $Password -storepass $Password -validity 9999 -keystore "$DestPathJKS\solr-ssl.keystore.jks" -ext SAN=DNS:$DNS -dname $DName
+        if($PSCmdlet.ShouldProcess($Alias, 'Generating Key')) {
 
-        & $Keytool -importkeystore -srckeystore "$DestPathJKS\solr-ssl.keystore.jks" -destkeystore "$DestPathP12\solr-ssl.keystore.p12" -srcstoretype jks -deststoretype pkcs12 -srcstorepass $Password -deststorepass $Password -noprompt
+            & $Keytool -genkeypair -alias $Alias -keyalg RSA -keysize 2048 -keypass $Password -storepass $Password -validity 9999 -keystore "$DestPathJKS\solr-ssl.keystore.jks" -ext SAN=DNS:$DNS -dname $DName
 
-        $securePassword = ConvertTo-SecureString -String $Password -Force -AsPlainText
+            & $Keytool -importkeystore -srckeystore "$DestPathJKS\solr-ssl.keystore.jks" -destkeystore "$DestPathP12\solr-ssl.keystore.p12" -srcstoretype jks -deststoretype pkcs12 -srcstorepass $Password -deststorepass $Password -noprompt
 
-        Import-PfxCertificate -FilePath "$DestPathP12\solr-ssl.keystore.p12" -Password $securePassword -CertStoreLocation Cert:\LocalMachine\Root
+            $securePassword = ConvertTo-SecureString -String $Password -Force -AsPlainText
+
+            Import-PfxCertificate -FilePath "$DestPathP12\solr-ssl.keystore.p12" -Password $securePassword -CertStoreLocation Cert:\LocalMachine\Root
+        }
     }
 }
 

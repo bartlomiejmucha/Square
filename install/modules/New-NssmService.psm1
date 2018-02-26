@@ -22,8 +22,10 @@ Function New-NssmService {
 
     Process {
 
-        & $Nssm install "$ServiceName" "$Program" $Arguments
-        & $Nssm start "$ServiceName"
+        if($PSCmdlet.ShouldProcess($ServiceName, 'Installing service')) {
+            & $Nssm install "$ServiceName" "$Program" $Arguments
+            & $Nssm start "$ServiceName"
+        }
     }
 }
 
