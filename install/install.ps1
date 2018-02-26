@@ -1,60 +1,4 @@
-## TODO: add host for solr to etc\hosts file
-## TODO: relative path for custom SIF modules
-
-#tools
-$keytoolDirectoryPath = "C:\Program Files\Java\jdk1.8.0_144\bin"
-$nssmDirectoryPath = "C:\Program Files\nssm\win64"
-
-#solrParams
-$prefix = "square"
-$installScriptsPath = "C:\GitHub\Square\scripts"
-$installRootPath = "C:\Websites\Square"
-
-#database
-$sqlServer = "."
-$sqlAdminUser = "user"
-$sqlAdminPassword="pass"
-
-#source
-$configurationFilesPath = "$installScriptsPath\configuration files"
-$modulesPath = "$installScriptsPath\modules"
-$zipsPath = "$installScriptsPath\zips"
-$solrZipPath = "$zipsPath\solr-6.6.2.zip"
-$xconnectWDPZipPath = "$zipsPath\Sitecore 9.0.1 rev. 171219 (OnPrem)_xp0xconnect.scwdp.zip"
-$sitecoreWDPZipPath = "$zipsPath\Sitecore 9.0.1 rev. 171219 (OnPrem)_single.scwdp.zip"
-$licenseFilePath = "$installScriptsPath\license.xml"
-
-#destination
-$certificatesInstallPath = "$installRootPath\certificates"
-$solrInstallRoot = "$installRootPath\solr"
-$xconnectInstallRootPath = "$installRootPath\xconnect"
-$sitecoreInstallRootPath = "$installRootPath\sitecore"
-
-#hosts
-$hostName = "$prefix.sc"
-$solrHostName = "$prefix.solr"
-$xconnectHostName = "$prefix.xconnect"
-
-#certificates
-$rootCertificateName = "$prefix.sitecore_root"
-$xconnectClientCertificateName = "$prefix.xconnect_client"
-$xconnectHostCertificateName = "$prefix.xconnect"
-$sitecoreCertificateName = "$prefix.sc"
-$solrCertificateName = "$prefix.solr"
-$solrCertificatePassword = "secret"
-$solrCertificateDNS = "$solrHostName,IP:192.168.1.3,IP:127.0.0.1"
-$solrCertificateDName = "CN=$solrHostName, OU=Organizational Unit, O=Organization, L=Location, ST=State, C=Country"
-
-#services
-$xConnectCollectionServiceUrl = "https://$xconnectHostName"
-$solrServiceName = "$prefix.solr"
-$solrPort = 8983
-$solrUrl = "https://$solrHostName" + ":$solrPort/solr"
-$solrCorePrefix = "sitecore"
-
-#security
-$sitecoreAdminPanelPassword = "b"
-$telerikEncryptionKey = "e9kkLjJKrVO0ZlJ7r4gFMDLCqYSJU2r7"
+. ./parameters.ps1
 
 ##
 ## INSTALATION STEPS ##
@@ -63,33 +7,44 @@ $telerikEncryptionKey = "e9kkLjJKrVO0ZlJ7r4gFMDLCqYSJU2r7"
 #
 #install client certificate for xconnect
 #
-$certParams = @{
- Path = "$configurationFilesPath\xconnect-createcert.json"
- CertificateName = $xconnectClientCertificateName
- HostCertificateName = $xconnectHostCertificateName
- RootCertFileName = $rootCertificateName
- CertPath = $certificatesInstallPath
+$xconnectCreateCertParams = @{
+ Path = "$srcConfigurationFilesPath\xconnect-createcert.json"
+ CertificateName = $destXConnectClientCertificateName
+ CertPath = $destCertificatesPath
+ RootCertFileName = $destRootCertificateName
 }
 
-#Install-SitecoreConfiguration @certParams -Verbose
+#Install-SitecoreConfiguration @xconnectCreateCertParams -Verbose
+
+#
+#install host certificate for xconnect
+#
+$xconnectCreateHostCertParams = @{
+ Path = "$srcConfigurationFilesPath\custom-xconnect-create-host-cert.json"
+ CertPath = $destCertificatesPath
+ RootCertFileName = $destRootCertificateName
+ HostCertificateName = $destXConnectHostCertificateName
+}
+
+#Install-SitecoreConfiguration @xconnectCreateHostCertParams -Verbose
 
 #
 #install solr instance
 #
 $solrInstallParams = @{
- Path = "$configurationFilesPath\install-solr.json"
- SolrZipPath = $solrZipPath
- SolrRootPath = $solrInstallRoot
- KeytoolDirectoryPath = $keytoolDirectoryPath
- HostName = $solrHostName
- CertificateName = $solrCertificateName
- CertificatePassword = $solrCertificatePassword
- CertificateDNS = $solrCertificateDNS
- CertificateDName = $solrCertificateDName
- CertificatePath = $certificatesInstallPath
- NssmDirectoryPath = $nssmDirectoryPath
- SolrServiceName = $solrServiceName
- SolrPort = $solrPort
+ Path = "$srcConfigurationFilesPath\custom-install-solr.json"
+ SolrZipPath = $srcSolrZipPath
+ SolrRootPath = $destSolrPath
+ SolrHostName = $destSolrHostName
+ SolrCertificateName = $destSolrCertificateName
+ SolrCertificatePassword = $destSolrCertificatePassword
+ SolrCertificateDNS = $destSolrCertificateDNS
+ SolrCertificateDName = $destSolrCertificateDName
+ SolrServiceName = $destSolrServiceName
+ SolrPort = $destSolrPort
+ CertPath = $destCertificatesPath
+ KeytoolPath = $keytoolPath
+ NssmPath = $nssmPath
 }
 
 #Install-SitecoreConfiguration @solrInstallParams -Verbose
@@ -97,56 +52,56 @@ $solrInstallParams = @{
 #
 #install solr cores for xdb
 #
-$solrParams = @{
- Path = "$configurationFilesPath\xconnect-solr.json"
- SolrUrl = $solrUrl
- SolrRoot = $solrInstallRoot
- SolrService = $solrServiceName
- CorePrefix = $solrCorePrefix
+$xconnectSolrParams = @{
+ Path = "$srcConfigurationFilesPath\xconnect-solr.json"
+ SolrUrl = $destSolrUrl
+ SolrRoot = $destSolrPath
+ SolrService = $destSolrServiceName
+ CorePrefix = $destSolrCorePrefix
 }
 
-#Install-SitecoreConfiguration @solrParams
+#Install-SitecoreConfiguration @xconnectSolrParams
 
 #
 #deploy xconnect instance
 #
-$xconnectParams = @{
- Path = "$configurationFilesPath\xconnect-xp0.json"
- Package = $xconnectWDPZipPath
+$xconnectXP0Params = @{
+ Path = "$srcConfigurationFilesPath\xconnect-xp0.json"
+ Package = $srcXConnectWDPZipPath
  LicenseFile = $licenseFilePath
- SiteName = $xconnectHostName
- XConnectCert = $xconnectClientCertificateName
+ SiteName = $destXConnectHostName
+ XConnectCert = $destXConnectClientCertificateName
  SqlDbPrefix = $prefix
- SqlServer = $sqlServer
- SqlAdminUser = $sqlAdminUser
- SqlAdminPassword = $sqlAdminPassword
- SqlCollectionUser = $sqlAdminUser
- SqlCollectionPassword = $sqlAdminPassword
- SqlProcessingPoolsUser = $sqlAdminUser
- SqlProcessingPoolsPassword = $sqlAdminPassword
- SqlReferenceDataUser = $sqlAdminUser
- SqlReferenceDataPassword = $sqlAdminPassword
- SqlMarketingAutomationUser = $sqlAdminUser
- SqlMarketingAutomationPassword = $sqlAdminPassword
- SqlMessagingUser = $sqlAdminUser
- SqlMessagingPassword = $sqlAdminPassword
- SolrCorePrefix = $solrCorePrefix
- SSLCert = $xconnectHostCertificateName
- SolrURL = $solrUrl
- XConnectPhysicalPath = $xconnectInstallRootPath
+ SolrCorePrefix = $destSolrCorePrefix
+ SSLCert = $destXConnectHostCertificateName 
+ SqlAdminUser = $dbUser
+ SqlAdminPassword = $dbPassword
+ SolrUrl = $destSolrUrl
+ SqlCollectionUser = $dbUser
+ SqlCollectionPassword = $dbPassword
+ SqlProcessingPoolsUser = $dbUser
+ SqlProcessingPoolsPassword = $dbPassword
+ SqlReferenceDataUser = $dbUser
+ SqlReferenceDataPassword = $dbPassword
+ SqlMarketingAutomationUser = $dbUser
+ SqlMarketingAutomationPassword = $dbPassword
+ SqlMessagingUser = $dbUser
+ SqlMessagingPassword = $dbPassword
+ SqlServer = $dbServer
+ XConnectPhysicalPath = $destXConnectPath
 }
 
-#Install-SitecoreConfiguration @xconnectParams
+#Install-SitecoreConfiguration @xconnectXP0Params
 
 #
 #install solr cores for sitecore
 #
 $solrParams = @{
- Path = "$configurationFilesPath\sitecore-solr.json"
- SolrUrl = $solrUrl
- SolrRoot = $solrInstallRoot
- SolrService = $solrServiceName
- CorePrefix = $solrCorePrefix
+ Path = "$srcConfigurationFilesPath\sitecore-solr.json"
+ SolrUrl = $destSolrUrl
+ SolrRoot = $destSolrPath
+ SolrService = $destSolrServiceName
+ CorePrefix = $destSolrCorePrefix
 }
 
 #Install-SitecoreConfiguration @solrParams
@@ -155,48 +110,48 @@ $solrParams = @{
 #install sitecore instance
 #
 $sitecoreParams = @{
- Path = "$configurationFilesPath\sitecore-XP0.json"
- Package = $sitecoreWDPZipPath
+ Path = "$srcConfigurationFilesPath\sitecore-XP0.json"
+ Package = $srcSitecoreWDPZipPath
  LicenseFile = $licenseFilePath
- SolrCorePrefix = $solrCorePrefix
- SolrUrl = $solrUrl
- SqlServer = $sqlServer
  SqlDbPrefix = $prefix
- SqlAdminUser = $sqlAdminUser
- SqlAdminPassword = $sqlAdminPassword
- SqlCoreUser = $sqlAdminUser
- SqlCorePassword = $sqlAdminPassword
- SqlMasterUser = $sqlAdminUser
- SqlMasterPassword = $sqlAdminPassword
- SqlWebUser = $sqlAdminUser
- SqlWebPassword = $sqlAdminPassword
- SqlReportingUser = $sqlAdminUser
- SqlReportingPassword = $sqlAdminPassword
- SqlProcessingPoolsUser = $sqlAdminUser
- SqlProcessingPoolsPassword = $sqlAdminPassword
- SqlProcessingTasksUser = $sqlAdminUser
- SqlProcessingTasksPassword = $sqlAdminPassword
- SqlReferenceDataUser = $sqlAdminUser
- SqlReferenceDataPassword = $sqlAdminPassword
- SqlMarketingAutomationUser = $sqlAdminUser
- SqlMarketingAutomationPassword = $sqlAdminPassword
- SqlFormsUser = $sqlAdminUser
- SqlFormsPassword = $sqlAdminPassword
- SqlExmMasterUser = $sqlAdminUser
- SqlExmMasterPassword = $sqlAdminPassword
- SqlMessagingUser = $sqlAdminUser
- SqlMessagingPassword = $sqlAdminPassword
- SitecoreAdminPassword = $sitecoreAdminPanelPassword
- TelerikEncryptionKey = $telerikEncryptionKey
-
- XConnectCert = $xconnectClientCertificateName
- SiteName = $hostName
- XConnectCollectionService = $xConnectCollectionServiceUrl
- SitecorePhysicalPath = $sitecoreInstallRootPath
-
- HostCertificateName = $sitecoreCertificateName
- RootCertFileName = $rootCertificateName
- CertPath = $certificatesInstallPath
+ SolrCorePrefix = $destSolrCorePrefix
+ XConnectCert = $destXConnectClientCertificateName
+ SiteName = $destSitecoreHostName
+ SitecoreAdminPassword = $destSitecoreAdminPassword
+ SqlAdminUser = $dbUser
+ SqlAdminPassword = $dbPassword
+ SqlCoreUser = $dbUser
+ SqlCorePassword = $dbPassword
+ SqlMasterUser = $dbUser
+ SqlMasterPassword = $dbPassword
+ SqlWebUser = $dbUser
+ SqlWebPassword = $dbPassword
+ SqlReportingUser = $dbUser
+ SqlReportingPassword = $dbPassword
+ SqlProcessingPoolsUser = $dbUser
+ SqlProcessingPoolsPassword = $dbPassword
+ SqlProcessingTasksUser = $dbUser
+ SqlProcessingTasksPassword = $dbPassword
+ SqlReferenceDataUser = $dbUser
+ SqlReferenceDataPassword = $dbPassword
+ SqlMarketingAutomationUser = $dbUser
+ SqlMarketingAutomationPassword = $dbPassword
+ SqlFormsUser = $dbUser
+ SqlFormsPassword = $dbPassword
+ SqlExmMasterUser = $dbUser
+ SqlExmMasterPassword = $dbPassword
+ SqlMessagingUser = $dbUser
+ SqlMessagingPassword = $dbPassword
+ SqlServer = $dbServer
+ SolrUrl = $destSolrUrl
+ XConnectCollectionService = $destXConnectCollectionServiceUrl
+ TelerikEncryptionKey = $destSitecoreTelerikEncryptionKey
+ 
+ #custom
+ SitecorePhysicalPath = $destSitecorePath
+ CertPath = $destCertificatesPath
+ RootCertFileName = $destRootCertificateName
+ HostCertificateName = $destSitecoreCertificateName
 }
 
 Install-SitecoreConfiguration @sitecoreParams
