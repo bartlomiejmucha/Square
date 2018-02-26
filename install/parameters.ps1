@@ -4,17 +4,17 @@
 
 $prefix = "square"
 
-$installRootPath = "D:\sandbox\websites\$prefix"
-$licenseFilePath = "D:\private\projects\github\Square\install\license.xml"
+$installRootPath = "C:\Websites\$prefix"
+$licenseFilePath = "C:\Websites\license.xml"
 
 #database
 $dbServer = "."
-$dbUser = "devuser" 
-$dbPassword="devuser"
+$dbUser = "user" 
+$dbPassword="pass"
 
 #tools
 $keytoolPath = "C:\Program Files\Java\jdk1.8.0_144\bin\keytool.exe"
-$nssmPath = "D:\tools\nssm\win64\nssm.exe"
+$nssmPath = "C:\Program Files\nssm\win64\nssm.exe"
 
 ##
 ## OPTIONAL PARAMETERS ##

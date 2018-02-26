@@ -1,4 +1,5 @@
 . ./parameters.ps1
+. ./parameters-local.ps1
 
 ##
 ## UNINSTALL STEPS ##
