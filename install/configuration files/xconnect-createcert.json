@@ -13,10 +13,6 @@
             "Type": "string",
             "Description": "The file name of the root certificate to be created.",
             "DefaultValue": "SitecoreRootCert"
-        },
-        "HostCertificateName": { 
-            "Type": "string", 
-            "Description": "[Square custom param] The name of the certificate to be created for the host." 
         }
     },
     "Variables": {
@@ -25,9 +21,7 @@
         // The certificate store for the root certificate.
         "Root.Cert.Store": "cert:\\LocalMachine\\Root",
         // The certificate store for the client certificate.
-        "Client.Cert.Store": "cert:\\LocalMachine\\My",
-        // [Square custom variable] The certificate store for the host certificate. 
-        "Host.Cert.Store": "cert:\\LocalMachine\\My"
+        "Client.Cert.Store": "cert:\\LocalMachine\\My"
     },
     "Tasks": {
         "CreatePaths": {
@@ -67,17 +61,6 @@
                 "Name": "[parameter('CertificateName')]",
                 "DnsName": "[parameter('CertificateName')]"
             }
-        }, 
-        "CreateSignedCertHost": { 
-            // [Squre added] Create a certificate signed by the root authority for the host. 
-            "Type": "NewSignedCertificate", 
-            "Params": { 
-                "Signer": "[GetCertificate(variable('Root.Cert.DnsName'), variable('Root.Cert.Store'))]", 
-                "Path": "[parameter('CertPath')]", 
-                "CertStoreLocation": "[variable('Host.Cert.Store')]", 
-                "Name": "[parameter('HostCertificateName')]", 
-                "DnsName": "[parameter('HostCertificateName')]" 
-            } 
         }
     }
 }

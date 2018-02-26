@@ -1,0 +1,39 @@
+{
+    "Parameters": {
+        "CertPath": {
+            "Type": "string",
+            "Description": "The physical path on disk where certificates will be stored.",
+            "DefaultValue": "c:\\certificates"
+        },
+        "RootCertFileName": {
+            "Type": "string",
+            "Description": "The file name of the root certificate to be created.",
+            "DefaultValue": "SitecoreRootCert"
+        },
+        "HostCertificateName": { 
+            "Type": "string", 
+            "Description": "[Square custom param] The name of the certificate to be created for the host." 
+        }
+    },
+    "Variables": {
+        // The name dns name of the root certificate.
+        "Root.Cert.DnsName": "[concat('DO_NOT_TRUST_', parameter('RootCertFileName'))]",
+        // The certificate store for the root certificate.
+        "Root.Cert.Store": "cert:\\LocalMachine\\Root",
+        // [Square custom variable] The certificate store for the host certificate. 
+        "Host.Cert.Store": "cert:\\LocalMachine\\My"
+    },
+    "Tasks": {
+        "CreateSignedCertHost": { 
+            // Create a certificate signed by the root authority for the xconnect host. 
+            "Type": "NewSignedCertificate", 
+            "Params": { 
+                "Signer": "[GetCertificate(variable('Root.Cert.DnsName'), variable('Root.Cert.Store'))]", 
+                "Path": "[parameter('CertPath')]", 
+                "CertStoreLocation": "[variable('Host.Cert.Store')]", 
+                "Name": "[parameter('HostCertificateName')]", 
+                "DnsName": "[parameter('HostCertificateName')]" 
+            } 
+        }
+    }
+}
