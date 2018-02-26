@@ -20,8 +20,8 @@ $configurationFilesPath = "$installScriptsPath\configuration files"
 $modulesPath = "$installScriptsPath\modules"
 $zipsPath = "$installScriptsPath\zips"
 $solrZipPath = "$zipsPath\solr-6.6.2.zip"
-$xconnectWDPZipPath = "$zipsPath\Sitecore 9.0.0 rev. 171002 (OnPrem)_xp0xconnect.scwdp.zip"
-$sitecoreWDPZipPath = "$zipsPath\Sitecore 9.0.0 rev. 171002 (OnPrem)_single.scwdp.zip"
+$xconnectWDPZipPath = "$zipsPath\Sitecore 9.0.1 rev. 171219 (OnPrem)_xp0xconnect.scwdp.zip"
+$sitecoreWDPZipPath = "$zipsPath\Sitecore 9.0.1 rev. 171219 (OnPrem)_single.scwdp.zip"
 $licenseFilePath = "$installScriptsPath\license.xml"
 
 #destination
@@ -54,6 +54,7 @@ $solrCorePrefix = "sitecore"
 
 #security
 $sitecoreAdminPanelPassword = "b"
+$telerikEncryptionKey = "e9kkLjJKrVO0ZlJ7r4gFMDLCqYSJU2r7"
 
 ##
 ## INSTALATION STEPS ##
@@ -127,6 +128,8 @@ $xconnectParams = @{
  SqlReferenceDataPassword = $sqlAdminPassword
  SqlMarketingAutomationUser = $sqlAdminUser
  SqlMarketingAutomationPassword = $sqlAdminPassword
+ SqlMessagingUser = $sqlAdminUser
+ SqlMessagingPassword = $sqlAdminPassword
  SolrCorePrefix = $solrCorePrefix
  SSLCert = $xconnectHostCertificateName
  SolrURL = $solrUrl
@@ -179,7 +182,12 @@ $sitecoreParams = @{
  SqlMarketingAutomationPassword = $sqlAdminPassword
  SqlFormsUser = $sqlAdminUser
  SqlFormsPassword = $sqlAdminPassword
+ SqlExmMasterUser = $sqlAdminUser
+ SqlExmMasterPassword = $sqlAdminPassword
+ SqlMessagingUser = $sqlAdminUser
+ SqlMessagingPassword = $sqlAdminPassword
  SitecoreAdminPassword = $sitecoreAdminPanelPassword
+ TelerikEncryptionKey = $telerikEncryptionKey
 
  XConnectCert = $xconnectClientCertificateName
  SiteName = $hostName

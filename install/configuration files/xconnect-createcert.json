@@ -4,10 +4,6 @@
             "Type": "string",
             "Description": "The name of the certificate to be created."
         },
-        "HostCertificateName": {
-            "Type": "string",
-            "Description": "The name of the certificate to be created for the host."
-        },
         "CertPath": {
             "Type": "string",
             "Description": "The physical path on disk where certificates will be stored.",
@@ -17,6 +13,10 @@
             "Type": "string",
             "Description": "The file name of the root certificate to be created.",
             "DefaultValue": "SitecoreRootCert"
+        },
+        "HostCertificateName": { 
+            "Type": "string", 
+            "Description": "[Square custom param] The name of the certificate to be created for the host." 
         }
     },
     "Variables": {
@@ -26,7 +26,7 @@
         "Root.Cert.Store": "cert:\\LocalMachine\\Root",
         // The certificate store for the client certificate.
         "Client.Cert.Store": "cert:\\LocalMachine\\My",
-        // The certificate store for the host certificate.
+        // [Square custom variable] The certificate store for the host certificate. 
         "Host.Cert.Store": "cert:\\LocalMachine\\My"
     },
     "Tasks": {
@@ -57,8 +57,8 @@
                 "FilePath": "[concat(joinpath(parameter('CertPath'), parameter('RootCertFileName')), '.crt')]"
             }
         },
-        "CreateSignedCertClient": {
-            // Create a certificate signed by the root authority for the client.
+        "CreateSignedCert": {
+            // Create a certificate signed by the root authority.
             "Type": "NewSignedCertificate",
             "Params": {
                 "Signer": "[GetCertificate(variable('Root.Cert.DnsName'), variable('Root.Cert.Store'))]",
@@ -67,17 +67,17 @@
                 "Name": "[parameter('CertificateName')]",
                 "DnsName": "[parameter('CertificateName')]"
             }
-        },
-        "CreateSignedCertHost": {
-            // Create a certificate signed by the root authority for the host.
-            "Type": "NewSignedCertificate",
-            "Params": {
-                "Signer": "[GetCertificate(variable('Root.Cert.DnsName'), variable('Root.Cert.Store'))]",
-                "Path": "[parameter('CertPath')]",
-                "CertStoreLocation": "[variable('Host.Cert.Store')]",
-                "Name": "[parameter('HostCertificateName')]",
-                "DnsName": "[parameter('HostCertificateName')]"
-            }
+        }, 
+        "CreateSignedCertHost": { 
+            // [Squre added] Create a certificate signed by the root authority for the host. 
+            "Type": "NewSignedCertificate", 
+            "Params": { 
+                "Signer": "[GetCertificate(variable('Root.Cert.DnsName'), variable('Root.Cert.Store'))]", 
+                "Path": "[parameter('CertPath')]", 
+                "CertStoreLocation": "[variable('Host.Cert.Store')]", 
+                "Name": "[parameter('HostCertificateName')]", 
+                "DnsName": "[parameter('HostCertificateName')]" 
+            } 
         }
     }
 }
