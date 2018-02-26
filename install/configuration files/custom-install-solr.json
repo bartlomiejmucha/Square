@@ -6,39 +6,27 @@
         },
         "SolrRootPath": {
             "Type": "string",
-            "Description": "The file path to the Solr instance."
+            "Description": "The solr installation path."
         },
-        "KeytoolDirectoryPath": {
-            "Type": "string",
-            "Description": "The path to the directory containing keytool.exe file from JDK."
-        },
-        "HostName": {
+        "SolrHostName": {
             "Type": "string",
             "Description": "The solr host name."
         },
-        "CertificateName": {
+        "SolrCertificateName": {
             "Type": "string",
             "Description": "The solr certificate name."
         },
-        "CertificatePassword": {
+        "SolrCertificatePassword": {
             "Type": "string",
             "Description": "The solr certificate password."
         },
-        "CertificateDNS": {
+        "SolrCertificateDNS": {
             "Type": "string",
             "Description": "The solr certificate DNS."
         },
-        "CertificateDName": {
+        "SolrCertificateDName": {
             "Type": "string",
             "Description": "The solr certificate DName."
-        },
-        "CertificatePath": {
-            "Type": "string",
-            "Description": "The physical path on disk where certificates will be stored."
-        },
-        "NssmDirectoryPath": {
-            "Type": "string",
-            "Description": "The path to the directory containing nssm.exe file."
         },
         "SolrServiceName": {
             "Type": "string",
@@ -47,14 +35,32 @@
         "SolrPort": {
             "Type": "string",
             "Description": "The solr port."
+        },
+        "CertPath": {
+            "Type": "string",
+            "Description": "The physical path on disk where certificates will be stored.",
+            "DefaultValue": "c:\\certificates"
+        },
+        "KeytoolPath": {
+            "Type": "string",
+            "Description": "The path to the keytool.exe file from JDK."
+        },
+        "NssmPath": {
+            "Type": "string",
+            "Description": "The path to the nssm.exe file."
         }
     },
     "Variables": {
-        "KeytoolExePath": "[concat(parameter('KeytoolDirectoryPath'), '\\', 'keytool.exe')]",
-        "NssmExePath": "[concat(parameter('NssmDirectoryPath'), '\\', 'nssm.exe')]"
     },
     "Tasks": {
-        "CreatePaths": {
+        "AddSolrHostToHostsFile": {
+            // Sets a hostheader for the website.
+            "Type": "HostHeader",
+            "Params": {
+                "HostName": "[parameter('SolrHostName')]"
+            }
+        },
+        "CreateSolrRootPaths": {
             // Create the physical disk path.
             "Type": "EnsurePath",
             "Params": {
@@ -82,13 +88,13 @@
             // Create certificate for solr
             "Type": "NewJavaKeyStore",
             "Params": {
-                "Keytool": "[variable('KeytoolExePath')]",
-                "Alias": "[parameter('CertificateName')]",
-                "Password": "[parameter('CertificatePassword')]",
-                "DNS":"[parameter('CertificateDNS')]",
-                "DName":"[parameter('CertificateDName')]",
+                "Keytool": "[parameter('KeytoolPath')]",
+                "Alias": "[parameter('SolrCertificateName')]",
+                "Password": "[parameter('SolrCertificatePassword')]",
+                "DNS":"[parameter('SolrCertificateDNS')]",
+                "DName":"[parameter('SolrCertificateDName')]",
                 "DestPathJKS":"[concat(parameter('SolrRootPath'), '\\server\\etc')]",
-                "DestPathP12":"[parameter('CertificatePath')]"
+                "DestPathP12":"[parameter('CertPath')]"
             }
         },
         "ConfigureSolrCertificate": {
@@ -96,15 +102,15 @@
             "Type": "ConfigureSolrCertificate",
             "Params": {
                 "SolrRootPath": "[parameter('SolrRootPath')]",
-                "Password": "[parameter('CertificatePassword')]",
-                "HostName": "[parameter('HostName')]"
+                "Password": "[parameter('SolrCertificatePassword')]",
+                "HostName": "[parameter('SolrHostName')]"
             }
        },
        "CreateSolrService": {
             // Create solr service
             "Type": "NewNssmService",
             "Params": {
-                "Nssm": "[variable('NssmExePath')]",
+                "Nssm": "[parameter('NssmPath')]",
                 "ServiceName": "[parameter('SolrServiceName')]",
                 "Program": "[concat(parameter('SolrRootPath'), '\\bin\\solr.cmd')]",
                 "Arguments": "[concat('start -f -p ', parameter('SolrPort'))]"
@@ -112,9 +118,9 @@
        }
     },
     "Modules": [
-        "C:\\GitHub\\Square\\scripts\\modules\\Invoke-EnsureNoNestedSubfolder.psm1",
-        "C:\\GitHub\\Square\\scripts\\modules\\New-JavaKeyStore.psm1",
-        "C:\\GitHub\\Square\\scripts\\modules\\Invoke-ConfigureSolrCertificate.psm1",
-        "C:\\GitHub\\Square\\scripts\\modules\\New-NssmService.psm1"
+        ".\\modules\\Invoke-EnsureNoNestedSubfolder.psm1", 
+        ".\\modules\\New-JavaKeyStore.psm1", 
+        ".\\modules\\Invoke-ConfigureSolrCertificate.psm1", 
+        ".\\modules\\New-NssmService.psm1" 
     ]
 }
