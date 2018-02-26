@@ -122,7 +122,7 @@
         }, 
         "XConnectPhysicalPath": { 
             "Type": "string", 
-            "Description": "[Square custom param] The site full path on disk" 
+            "Description": "[Custom param] The site full path on disk" 
         }
     },
     "Variables": {
@@ -147,7 +147,7 @@
         "Security.XConnect.CertificatePath":        "[joinpath(variable('Security.CertificateStore'), variable('Security.XConnect.CertificateThumbprint'))]",
 
         // The sites full path on disk
-        // [Square modified] "Site.PhysicalPath": "[joinpath(environment('SystemDrive'), 'inetpub', 'wwwroot', parameter('SiteName'))]",
+        // [Modified] "Site.PhysicalPath": "[joinpath(environment('SystemDrive'), 'inetpub', 'wwwroot', parameter('SiteName'))]",
         "Site.PhysicalPath": "[parameter('XConnectPhysicalPath')]", 
         "Site.DataFolder":  "[joinpath(variable('Site.PhysicalPath'), 'App_Data')]",
 

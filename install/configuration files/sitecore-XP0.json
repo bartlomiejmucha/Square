@@ -213,20 +213,20 @@
         },
         "SitecorePhysicalPath": { 
             "Type": "string", 
-            "Description": "[Square custom param] The site full path on disk." 
+            "Description": "[Custom param] The site full path on disk." 
         },
         "CertPath": { 
             "Type": "string",
-            "Description": "[Square custom param] The physical path on disk where certificates will be stored."
+            "Description": "[Custom param] The physical path on disk where certificates will be stored."
         },
         "RootCertFileName": { 
             "Type": "string", 
             "Description": "The file name of the root certificate to be created.", 
-            "DefaultValue": "[Square custom param] SitecoreRootCert" 
+            "DefaultValue": "[Custom param] SitecoreRootCert" 
         }, 
         "HostCertificateName": { 
             "Type": "string", 
-            "Description": "[Square custom param] The file name of the host certificate to be created.", 
+            "Description": "[Custom param] The file name of the host certificate to be created.", 
             "DefaultValue": "SitecoreRootCert" 
         }
  
@@ -266,15 +266,15 @@
         "Solr.FXM.Web.Name":    "[concat(parameter('SolrCorePrefix'), '_fxm_web_index')]",
 
         // The sites full path on disk
-        // [Square upated] "Site.PhysicalPath": "[joinpath(environment('SystemDrive'), 'inetpub', 'wwwroot', parameter('SiteName'))]",
+        // [Modified] "Site.PhysicalPath": "[joinpath(environment('SystemDrive'), 'inetpub', 'wwwroot', parameter('SiteName'))]",
         "Site.PhysicalPath": "[parameter('SitecorePhysicalPath')]", 
         
         // The sites data folder
         "Site.DataFolder": "[joinpath(variable('Site.PhysicalPath'), 'App_Data')]",
 
-        // [Square upated] The name dns name of the root certificate. 
+        // [Custom] The name dns name of the root certificate. 
         "Root.Cert.DnsName": "[concat('DO_NOT_TRUST_', parameter('RootCertFileName'))]", 
-        // [Square upated] The certificate store for the root certificate. 
+        // [Custom] The certificate store for the root certificate. 
         "Root.Cert.Store": "cert:\\LocalMachine\\Root"
     },
     "Tasks": {
@@ -327,7 +327,7 @@
             }
         },
         "CreateSignedCertHost": { 
-            // [Square Added] Create a certificate signed by the root authority for the host. 
+            // [Custom] Create a certificate signed by the root authority for the host. 
             "Type": "NewSignedCertificate", 
             "Params": { 
                 "Signer": "[GetCertificate(variable('Root.Cert.DnsName'), variable('Root.Cert.Store'))]", 
@@ -347,7 +347,7 @@
             }
         },
         "CreateBindingsWithThumprint": { 
-            // [Square Added] Configures the site bindings for the website. 
+            // [Custom] Configures the site bindings for the website. 
             "Type": "WebBinding", 
             "Params": { 
                 "SiteName": "[parameter('SiteName')]", 
@@ -504,11 +504,11 @@
                 "UserName": "admin",
                 "Password": "[parameter('SitecoreAdminPassword')]"
             }, 
-            // [Skip added by Square]
+            // [Skip Custom]
             "Skip": "[parameter('HostCertificateName')]" 
         }, 
         "UpdateSolrSchemaSSL": { 
-            // [Square Added] Update the solr schemas. 
+            // [Custom] Update the solr schemas. 
             "Type": "SitecoreUrl", 
             "Params": { 
                 "SitecoreInstanceRoot": "[concat('https://', parameter('SiteName'))]", 
@@ -517,7 +517,6 @@
                 "Password": "[parameter('SitecoreAdminPassword')]" 
             }, 
             "Skip": "[not(parameter('HostCertificateName'))]" 
-            }
         }
     }
 }
