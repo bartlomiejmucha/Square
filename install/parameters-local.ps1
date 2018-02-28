@@ -1,3 +1,0 @@
-##
-## LOCAL PARAMETERS ##
-##
