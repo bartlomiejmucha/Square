@@ -11,13 +11,21 @@ Compared to official scripts, Square do additional things like:
 * Generates certificate for Solr,
 * Configures Solr to work over HTTPS,
 * Configures Solr to have custom host name like: *https://square.solr*,
+* Installs Solr as a windows service using NSSM,
 * Generates certificate for XConnect host,
 * Configures XConnect host to work over HTTPS,
 * Keeps clean installation folder structure with separate subfolders for sitecore, xconnect, solr and certificates,
 
-And if you don't need it or would like to reinstall it, there is *uninstall.ps1* script that removes everything from your PC including certificates, databases, hosts, sites on IIS and installation folders.
+And if you don't need it or would like to reinstall it, there is *uninstall.ps1* script that removes everything from your PC including certificates, databases, hosts entries from window's hosts file, sites on IIS, solr service, and all installation folders from disk.
 
 It has been tested to work with Sitecore 9.0 update 1, SIF 1.2, Solr 6.6.2 and Windows 10.
+
+After installation you will get root installation folder (like C:\Websites\Square) with subfolders structure like this:
+* certificates subfolder, like C:\Websites\Square\certificates
+* xconnect subfolder, like C:\Websites\Square\xconnect
+* solr subfodler, like C:\Websites\Square\solr
+* sitecore subfolder, like C:\Websites\Square\sitecore.
+
 
 ## How to use installation script?
 
