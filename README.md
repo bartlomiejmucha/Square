@@ -27,7 +27,12 @@ Inside *install* folder with three powershell scripts:
 * *uninstall.ps1*
 
 The first one *parameters.ps1* is included by other two files. It contains all prameters and variables required for instlalation and uninstallation.
-There are also two subfolders: *configuration files* with json files that defines installation steps and *modules* with custom powershell modules.
+There are also two subfolders: *configuration files* with json files that defines installation steps and *modules* with custom powershell modules for some custom installation tasks.
+
+Inside *configuration files* there are official XP0 Single configuration files with some minimal modifications that were required for me (You can use kdiff and compare with original files to find modifications). There are also three custom configuration files:
+* *custom-install-solr.json* - it defines tasks required to install solr locally, create cetificate for solr and configure it to work over HTTPS and with custom host name,
+* *custom-xconnect-create-host-cert.json* - it defines tasks required to create certificate for xconnect host,
+* *custom-uninstall.json* - it defines tasks required to uninstall everything from PC.
 
 To use those instlalation scripts follow below steps:
 
