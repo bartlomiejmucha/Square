@@ -14,7 +14,7 @@ $xconnectCreateCertParams = @{
  RootCertFileName = $destRootCertificateName
 }
 
-#Install-SitecoreConfiguration @xconnectCreateCertParams -Verbose
+Install-SitecoreConfiguration @xconnectCreateCertParams -Verbose
 
 #
 #install host certificate for xconnect
@@ -26,7 +26,7 @@ $xconnectCreateHostCertParams = @{
  HostCertificateName = $destXConnectHostCertificateName
 }
 
-#Install-SitecoreConfiguration @xconnectCreateHostCertParams -Verbose
+Install-SitecoreConfiguration @xconnectCreateHostCertParams -Verbose
 
 #
 #install solr instance
@@ -47,7 +47,7 @@ $solrInstallParams = @{
  NssmPath = $nssmPath
 }
 
-#Install-SitecoreConfiguration @solrInstallParams -Verbose
+Install-SitecoreConfiguration @solrInstallParams -Verbose
 
 #
 #install solr cores for xdb
@@ -60,7 +60,7 @@ $xconnectSolrParams = @{
  CorePrefix = $destSolrCorePrefix
 }
 
-#Install-SitecoreConfiguration @xconnectSolrParams
+Install-SitecoreConfiguration @xconnectSolrParams
 
 #
 #deploy xconnect instance
@@ -91,7 +91,7 @@ $xconnectXP0Params = @{
  XConnectPhysicalPath = $destXConnectPath
 }
 
-#Install-SitecoreConfiguration @xconnectXP0Params
+Install-SitecoreConfiguration @xconnectXP0Params
 
 #
 #install solr cores for sitecore
@@ -104,7 +104,7 @@ $solrParams = @{
  CorePrefix = $destSolrCorePrefix
 }
 
-#Install-SitecoreConfiguration @solrParams
+Install-SitecoreConfiguration @solrParams
 
 #
 #install sitecore instance
