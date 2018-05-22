@@ -1,0 +1,65 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<configuration xmlns:patch="http://www.sitecore.net/xmlconfig/" xmlns:role="http://www.sitecore.net/xmlconfig/role/" xmlns:env="http://www.sitecore.net/xmlconfig/env/" xmlns:search="http://www.sitecore.net/xmlconfig/search/">
+    <sitecore>
+        <contentSearch>
+            <configuration type="Sitecore.ContentSearch.ContentSearchConfiguration, Sitecore.ContentSearch">
+                <indexes hint="list:AddIndex">
+                    
+                    <index id="thin_web_index_example" type="Sitecore.ContentSearch.SolrProvider.SolrSearchIndex, Sitecore.ContentSearch.SolrProvider">
+                        <param desc="name">$(id)</param>
+                        <param desc="core">$(id)</param>
+                        <param desc="propertyStore" ref="contentSearch/indexConfigurations/databasePropertyStore" param1="$(id)" />
+                        <configuration ref="contentSearch/indexConfigurations/thinSolrIndexConfiguration">
+                            <documentOptions type="Sitecore.ContentSearch.SolrProvider.SolrDocumentBuilderOptions, Sitecore.ContentSearch.SolrProvider">
+                                
+                                <indexAllFields>false</indexAllFields>
+
+                                <!-- comment fields you need -->
+                                <exclude hint="list:AddExcludedField">
+                                    <!-- These two fields are required for content search api-->
+                                    <!--<Datasource>_datasource</Datasource>-->
+                                    <!--<IndexName>_indexname</IndexName>-->
+                                    <Hash>_hash</Hash>
+                                    <DocumentType>_documenttype</DocumentType>
+                                    <Database>_database</Database>
+                                    <!--<Language>_language</Language>-->
+                                    <Template>_template</Template>
+                                    <Parent>_parent</Parent>
+                                    <!--<LatestVersion>_latestversion</LatestVersion>-->
+                                    <Version>_version</Version>
+                                    <Group>_group</Group>
+                                    <IsClone>_isclone</IsClone>
+                                    <FullPath>_fullpath</FullPath>
+                                    <!--<Name>_name</Name>-->
+                                    <DisplayName>_displayname</DisplayName>
+                                    <Creator>_creator</Creator>
+                                    <Editor>_editor</Editor>
+                                    <TemplateName>_templatename</TemplateName>
+                                    <Created>_created</Created>
+                                    <Updated>_updated</Updated>
+                                    <!--<Path>_path</Path>-->
+                                    <Content>_content</Content>
+                                    <Tags>_tags</Tags>
+                                </exclude>
+
+                                <include hint="list:AddIncludedTemplate">
+                                </include>
+
+                            </documentOptions>
+                        </configuration>
+                        <strategies hint="list:AddStrategy">
+                            <strategy ref="contentSearch/indexConfigurations/indexUpdateStrategies/onPublishEndAsync" />
+                        </strategies>
+                        <locations hint="list:AddCrawler">
+                            <crawler type="Sitecore.ContentSearch.SitecoreItemCrawler, Sitecore.ContentSearch">
+                                <Database>web</Database>
+                                <Root>/sitecore/content</Root>
+                            </crawler>
+                        </locations>
+                    </index>
+
+                </indexes>
+            </configuration>
+        </contentSearch>
+    </sitecore>
+</configuration>
