@@ -3,7 +3,7 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio 15
 VisualStudioVersion = 15.0.27130.2010
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Configuration", "Configuration", "{DC3A4EE9-D75A-4083-9CA1-0ED4F781C92F}"
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "0. Configuration", "0. Configuration", "{DC3A4EE9-D75A-4083-9CA1-0ED4F781C92F}"
 	ProjectSection(SolutionItems) = preProject
 		.editorconfig = .editorconfig
 		.gitattributes = .gitattributes
@@ -18,7 +18,7 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Configuration", "Configurat
 		README.md = README.md
 	EndProjectSection
 EndProject
-Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Foundation", "Foundation", "{03007388-5649-411D-8798-C7131AC4B69E}"
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "1. Foundation", "1. Foundation", "{03007388-5649-411D-8798-C7131AC4B69E}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Performance", "Performance", "{01534C3D-9AD4-461D-A7AC-35DDACE98D44}"
 EndProject
@@ -27,6 +27,22 @@ EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Indexing", "Indexing", "{5C6BA7CF-C018-47BC-8CE5-CA424FDA1805}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Square.Foundation.Indexing", "src\Foundation\Indexing\code\Square.Foundation.Indexing.csproj", "{A9A46F53-630C-48A7-BF43-6C479382E37D}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Theming", "Theming", "{65D22ED3-719E-40A9-9206-1EF1BEDC4E57}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Square.Foundation.Theming", "src\Foundation\Theming\code\Square.Foundation.Theming.csproj", "{45E8F76C-3829-4B73-AA32-B3CA2749F7E1}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Configuration", "Configuration", "{56998986-06AD-4DAF-8CAC-E3122D122627}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Square.Foundation.Configuration", "src\Foundation\Configuration\code\Square.Foundation.Configuration.csproj", "{B1FC23A6-1C81-4EF0-B809-013386857D7A}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "2. Feature", "2. Feature", "{CBB87AA3-BB98-4C8E-B9EE-853F21D6C400}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "3. Project", "3. Project", "{CEE7E464-5625-43E1-8F79-1DE3D34AC00B}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Square.Demo.Website", "src\Project\Demo\code\Square.Demo.Website.csproj", "{81C80932-C045-4833-8ABD-3F17B558ABD7}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Square.Foundation.Configuration.Tests", "src\Foundation\Configuration\tests\Square.Foundation.Configuration.Tests.csproj", "{A2C57B93-380B-483A-B0BB-E12AA28B6852}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -42,6 +58,22 @@ Global
 		{A9A46F53-630C-48A7-BF43-6C479382E37D}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{A9A46F53-630C-48A7-BF43-6C479382E37D}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{A9A46F53-630C-48A7-BF43-6C479382E37D}.Release|Any CPU.Build.0 = Release|Any CPU
+		{45E8F76C-3829-4B73-AA32-B3CA2749F7E1}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{45E8F76C-3829-4B73-AA32-B3CA2749F7E1}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{45E8F76C-3829-4B73-AA32-B3CA2749F7E1}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{45E8F76C-3829-4B73-AA32-B3CA2749F7E1}.Release|Any CPU.Build.0 = Release|Any CPU
+		{B1FC23A6-1C81-4EF0-B809-013386857D7A}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{B1FC23A6-1C81-4EF0-B809-013386857D7A}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{B1FC23A6-1C81-4EF0-B809-013386857D7A}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{B1FC23A6-1C81-4EF0-B809-013386857D7A}.Release|Any CPU.Build.0 = Release|Any CPU
+		{81C80932-C045-4833-8ABD-3F17B558ABD7}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{81C80932-C045-4833-8ABD-3F17B558ABD7}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{81C80932-C045-4833-8ABD-3F17B558ABD7}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{81C80932-C045-4833-8ABD-3F17B558ABD7}.Release|Any CPU.Build.0 = Release|Any CPU
+		{A2C57B93-380B-483A-B0BB-E12AA28B6852}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{A2C57B93-380B-483A-B0BB-E12AA28B6852}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{A2C57B93-380B-483A-B0BB-E12AA28B6852}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{A2C57B93-380B-483A-B0BB-E12AA28B6852}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -51,6 +83,12 @@ Global
 		{8BC4E1D3-2F02-49CD-8C06-5A306C314E15} = {01534C3D-9AD4-461D-A7AC-35DDACE98D44}
 		{5C6BA7CF-C018-47BC-8CE5-CA424FDA1805} = {03007388-5649-411D-8798-C7131AC4B69E}
 		{A9A46F53-630C-48A7-BF43-6C479382E37D} = {5C6BA7CF-C018-47BC-8CE5-CA424FDA1805}
+		{65D22ED3-719E-40A9-9206-1EF1BEDC4E57} = {03007388-5649-411D-8798-C7131AC4B69E}
+		{45E8F76C-3829-4B73-AA32-B3CA2749F7E1} = {65D22ED3-719E-40A9-9206-1EF1BEDC4E57}
+		{56998986-06AD-4DAF-8CAC-E3122D122627} = {03007388-5649-411D-8798-C7131AC4B69E}
+		{B1FC23A6-1C81-4EF0-B809-013386857D7A} = {56998986-06AD-4DAF-8CAC-E3122D122627}
+		{81C80932-C045-4833-8ABD-3F17B558ABD7} = {CEE7E464-5625-43E1-8F79-1DE3D34AC00B}
+		{A2C57B93-380B-483A-B0BB-E12AA28B6852} = {56998986-06AD-4DAF-8CAC-E3122D122627}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {42234BFB-86D3-4B26-A15A-766B5E3685B5}
