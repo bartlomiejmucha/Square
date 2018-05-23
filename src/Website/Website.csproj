@@ -43,6 +43,10 @@
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
+  <PropertyGroup>
+    <DisableFastUpToDateCheck>true</DisableFastUpToDateCheck>
+    <PublishProfile>Local</PublishProfile>
+  </PropertyGroup>
   <ItemGroup>
     <Reference Include="Microsoft.CSharp" />
     <Reference Include="System.Web.DynamicData" />
@@ -68,6 +72,9 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
+    <None Include="Properties\PublishProfiles\Local.pubxml">
+      <SubType>Designer</SubType>
+    </None>
     <None Include="Web.config" />
   </ItemGroup>
   <ItemGroup>
@@ -81,6 +88,11 @@
     <None Include="Web.Release.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\Foundation\*\code\*.csproj" />
+    <ProjectReference Include="..\Feature\*\code\*.csproj" />
+    <ProjectReference Include="..\Project\*\code\*.csproj" />
   </ItemGroup>
   <PropertyGroup>
     <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">10.0</VisualStudioVersion>

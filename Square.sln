@@ -14,7 +14,9 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "0. Configuration", "0. Conf
 		LICENSE = LICENSE
 		nuget.config = nuget.config
 		package.json = package.json
+		publishsettings.hpp.targets = publishsettings.hpp.targets
 		publishsettings.targets = publishsettings.targets
+		publishsettings.targets.user = publishsettings.targets.user
 		README.md = README.md
 	EndProjectSection
 EndProject
