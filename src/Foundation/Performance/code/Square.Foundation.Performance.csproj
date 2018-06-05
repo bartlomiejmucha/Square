@@ -72,7 +72,7 @@
     <None Include="packages.config" />
   </ItemGroup>
   <ItemGroup>
-    <Content Include="README.md" />
+    <None Include="README.md" />
     <None Include="Web.config" />
   </ItemGroup>
   <ItemGroup>
