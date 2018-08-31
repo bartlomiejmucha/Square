@@ -4,7 +4,7 @@
     </PropertyGroup>
 
     <ItemGroup>
-        <ReplacementFilesForPackaging Include="$(publishUrl)\Web.config">
+        <ReplacementFilesForPackaging Include="$(publishUrl)\Web.config" Condition="'$(AutoPublish)' == 'true'">
             <DestinationRelativePath>Web.config</DestinationRelativePath>
         </ReplacementFilesForPackaging>
     </ItemGroup>
