@@ -2,7 +2,7 @@
     <PropertyGroup>
         <!-- Use file path instead of host, so Helix Publishing Pipeline can detects unchanged Web.config transformation outputs and skips them to prevent an unnecessarily app pool recycle. -->
         <publishUrl>C:\Websites\square\sitecore</publishUrl>
-        <ExcludeFilesFromDeployment>packages.config;Web.config;bin\Sitecore.*.dll</ExcludeFilesFromDeployment>
+        <ExcludeFilesFromDeployment>packages.config;Web.config;bin\Sitecore.*.*;bin\Website.*</ExcludeFilesFromDeployment>
     </PropertyGroup>
     <Import Project="./publishsettings.targets.user" Condition="exists('./publishsettings.targets.user')" /> 
 </Project>
