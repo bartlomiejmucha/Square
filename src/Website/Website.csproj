@@ -45,7 +45,7 @@
   </PropertyGroup>
   <PropertyGroup>
     <DisableFastUpToDateCheck>true</DisableFastUpToDateCheck>
-    <PublishProfile>Local</PublishProfile>
+    <PublishProfile>FileSystem</PublishProfile>
   </PropertyGroup>
   <ItemGroup>
     <Reference Include="Microsoft.CSharp" />
@@ -72,7 +72,7 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
-    <None Include="Properties\PublishProfiles\Local.pubxml">
+    <None Include="Properties\PublishProfiles\FileSystem.pubxml">
       <SubType>Designer</SubType>
     </None>
     <None Include="Web.config" />

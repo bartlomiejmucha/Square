@@ -12,10 +12,4 @@
 
     <Target Name="AutoPublish" AfterTargets="Build" DependsOnTargets="$(AutoPublishDependsOn)">
     </Target>
-
-    <ItemGroup>
-        <ReplacementFilesForPackaging Include="$(publishUrl)\Web.config">
-            <DestinationRelativePath>Web.config</DestinationRelativePath>
-        </ReplacementFilesForPackaging>
-    </ItemGroup>
 </Project>

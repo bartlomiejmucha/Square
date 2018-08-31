@@ -1,0 +1,11 @@
+<Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+    <PropertyGroup>
+        <IncludeHelixWebConfigTransformInPackage>true</IncludeHelixWebConfigTransformInPackage>
+    </PropertyGroup>
+
+    <ItemGroup>
+        <ReplacementFilesForPackaging Include="$(publishUrl)\Web.config">
+            <DestinationRelativePath>Web.config</DestinationRelativePath>
+        </ReplacementFilesForPackaging>
+    </ItemGroup>
+</Project>
