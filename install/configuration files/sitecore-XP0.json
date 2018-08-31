@@ -186,6 +186,11 @@
             "DefaultValue": "https://localhost:8983/solr",
             "Description": "The Solr instance to use."
         },
+		"SolrZookeeperUrl": {
+            "Type": "string",
+            "DefaultValue": "localhost:2181",
+            "Description": "The Zookeeper instance to use."
+        },
         "XConnectCollectionService": {
             "Type": "string",
             "DefaultValue": "https://XConnect",
@@ -229,7 +234,6 @@
             "Description": "[Custom param] The file name of the host certificate to be created.", 
             "DefaultValue": "SitecoreRootCert" 
         }
- 
     },
     "Variables": {
         // Variables are values calculated in a configuration.
@@ -268,7 +272,7 @@
         // The sites full path on disk
         // [Modified] "Site.PhysicalPath": "[joinpath(environment('SystemDrive'), 'inetpub', 'wwwroot', parameter('SiteName'))]",
         "Site.PhysicalPath": "[parameter('SitecorePhysicalPath')]", 
-        
+
         // The sites data folder
         "Site.DataFolder": "[joinpath(variable('Site.PhysicalPath'), 'App_Data')]",
 
@@ -452,6 +456,7 @@
                         { "Name": "XDB MA Ops Client", "Value": "[parameter('MarketingAutomationOperationsService')]" },
                         { "Name": "XConnect Server Certificate Validation Thumbprint", "Value": "[variable('Security.XConnect.CertificateThumbprint')]" },
                         { "Name": "SOLR Connection String", "Value": "[parameter('SolrUrl')]" },
+						{ "Name": "SOLR Zookeeper Connection String", "Value": "[parameter('SolrZookeeperUrl')]" },
                         { "Name": "Solr Core Index Name", "Value": "[variable('Solr.Core.Name')]" },
                         { "Name": "Solr Master Index Name", "Value": "[variable('Solr.Master.Name')]" },
                         { "Name": "Solr Web Index Name", "Value": "[variable('Solr.Web.Name')]" },
