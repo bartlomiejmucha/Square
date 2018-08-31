@@ -1,4 +1,6 @@
 <Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+    <!-- To trigger a publish after each build, https://github.com/richardszalay/helix-publishing-pipeline#publishing-on-build -->
+    <!-- NOTE: When publishing to FileSystem, Helix Publishing Pipeline detects unchanged Web.config transformation outputs and skips them to prevent an unnecessarily app pool recycle.-->
     <PropertyGroup>
         <AutoPublish Condition="'$(AutoPublish)' == '' and '$(Configuration)' == 'Debug' and '$(BuildingInsideVisualStudio)' == 'true' and '$(PublishProfile)' != ''">true</AutoPublish>
 
