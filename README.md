@@ -80,9 +80,19 @@ To use these instlalation scripts follow below steps:
 
 Open powershell and execute *uninstall.ps1* script. The script loads parameters from *parameters.ps1* and *parameters-local.ps1* files.
 
+## Helix Publishing Pipeline by Richard Szalay https://github.com/richardszalay/helix-publishing-pipeline
+
+Square uses HPP developed by Richard Szalay. It has configured following features:
+* Website project, that is representation of your iis application. This is where HPP nuget is installed to.
+* Website project autodiscovers Foundation, Feature and Project modules.
+* When you build Website project it automatically publish your website. It is much faster than build project and then publishing.
+* Delayed transformation of web.config file: The Web.Helix.config file is applayed over Web.config file in your publish folder.
+* If you publish outside local environment, for example on VSTS the Web.Helix.config file is included in build package, so you can apply it over Web.config in your enviroments.*
+* 
 ## [ToDo] How to deploy Square code into your locall Sitecore installation
 
 1. Open Square.sln. 
+2. Create publishsettings.targets.user file and set publishUrl. Set it as a path instead of hostname. It will speed up publishing a bit.
 2. Edit gulp-config.js file.
 3. Edit publishsettings.targets file.
 4. Execute default gulp task.
