@@ -16,6 +16,8 @@ $dbPassword="pass"
 $keytoolPath = "C:\Program Files\Java\jdk1.8.0_144\bin\keytool.exe"
 $nssmPath = "C:\Program Files\nssm\win64\nssm.exe"
 
+. ./parameters-local.ps1
+    
 ##
 ## OPTIONAL PARAMETERS ##
 ##

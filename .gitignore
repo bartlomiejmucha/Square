@@ -287,7 +287,8 @@ __pycache__/
 *.odx.cs
 *.xsd.cs
 
-# Sitecore stuff
+# Square
 install/license.xml
 install/zips/*
+install/parameters-local.ps1
 lib/license.xml

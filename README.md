@@ -4,7 +4,7 @@ A Sitecore Helix based solution with all my ideas.
 # Installation
 
 
-Square contains **improved** installation scripts, configurations and custom powershell modules, that you can use to install clean Sitecore 9.0 update 1 with Solr 6.6.2 for your local development.
+Square contains **improved** installation scripts, configurations and custom powershell modules, that you can use to install clean Sitecore 9.0 update 2 with Solr 6.6.2 for your local development.
 
 Compared to official scripts, Square do additional things like:
 * Installs Solr from zip file,
@@ -18,7 +18,7 @@ Compared to official scripts, Square do additional things like:
 
 And if you don't need it or would like to reinstall it, there is *uninstall.ps1* script that removes everything from your PC including certificates, databases, hosts entries from window's hosts file, sites on IIS, solr service, and all installation folders from disk.
 
-It has been tested to work with Sitecore 9.0 update 1, SIF 1.2, Solr 6.6.2 and Windows 10.
+It has been tested to work with Sitecore 9.0 update 2, SIF 1.2.1, SF 1.1, Solr 6.6.2 and Windows 10.
 
 After installation you will get root installation folder (like C:\Websites\Square) with subfolders structure like this:
 * certificates subfolder, like C:\Websites\Square\certificates
@@ -34,7 +34,28 @@ Inside *install* folder with three powershell scripts:
 * *install.ps1*
 * *uninstall.ps1*
 
-The first one *parameters.ps1* is included by other two files. It contains all prameters and variables required for instlalation and uninstallation.
+The first one *parameters.ps1* is included by other two files. It contains all prameters and variables required for installation and uninstallation.
+The *parameters.ps1* file loads *parameters-local.ps1* file from inside. Thanks to this you can override some default parameters in your local enviroment without editing *parameters.ps1* file. For example your *parameters-local.ps1* file can looks like this:
+```powershell
+##
+## LOCAL PARAMETERS ##
+##
+
+$prefix = "square"
+
+$installRootPath = "D:\websites\$prefix"
+$licenseFilePath = "D:\websites\license.xml"
+
+#database
+$dbServer = "."
+$dbUser = "username" 
+$dbPassword="pass"
+
+#tools
+$keytoolPath = "C:\Program Files\Java\jdk1.8.0_144\bin\keytool.exe"
+$nssmPath = "C:\Program Files\nssm\win64\nssm.exe"
+```
+
 There are also two subfolders: *configuration files* with json files that defines installation steps and *modules* with custom powershell modules for some custom installation tasks.
 
 Inside *configuration files* there are official XP0 Single configuration files with some minimal modifications that were required for me (You can use kdiff and compare with original files to find modifications). There are also three custom configuration files:
@@ -42,12 +63,12 @@ Inside *configuration files* there are official XP0 Single configuration files w
 * *custom-xconnect-create-host-cert.json* - it defines tasks required to create certificate for xconnect host,
 * *custom-uninstall.json* - it defines tasks required to uninstall everything from PC.
 
-To use those instlalation scripts follow below steps:
+To use these instlalation scripts follow below steps:
 
   1. Create *zip* subfolder under *install* folder (you can create it in different place but you have to update path inside *parametrs.ps1* file),
-  2. Download packages for XP Single, for On Premises deployment from official url: https://dev.sitecore.net/Downloads/Sitecore_Experience_Platform/90/Sitecore_Experience_Platform_90_Update1.aspx
-  3. Unzip downloaded file. You will get folder with two WDP packages inside. Copy *Sitecore 9.0.1 rev. 171219 (OnPrem)_single.scwdp.zip* and *Sitecore 9.0.1 rev. 171219 (OnPrem)_xp0xconnect.scwdp.zip* into *zip* folder created in step 1,
-  4. Open *paramters.ps1* file and review all parameters. On the top of the file there is #MAIN PARAMETERS" section with most important settings that you have to configure.
+  2. Download packages for XP Single, for On Premises deployment from official url: https://dev.sitecore.net/Downloads/Sitecore_Experience_Platform/90/Sitecore_Experience_Platform_90_Update2.aspx
+  3. Unzip downloaded file. You will get folder with two WDP packages inside. Copy *Sitecore 9.0.2 rev. 180604 (OnPrem)_single.scwdp.zip* and *Sitecore 9.0.2 rev. 180604 (OnPrem)_xp0xconnect.scwdp.zip* into *zip* folder created in step 1,
+  4. Open *paramters.ps1* file and review all parameters. On the top of the file there is #MAIN PARAMETERS" section with most important settings that you have to configure. Override parameters inside *parameters-local.ps1* file or in *parameters.ps1* file directly.
      a. Set the installation path,
      b. Set the path to license file,
      c. Set the db settings,
@@ -57,7 +78,7 @@ To use those instlalation scripts follow below steps:
 
 ## How to use uninstall script?
 
-Open powershell and execute *uninstall.ps1* script. The script loads parameters from *parameters.ps1*.
+Open powershell and execute *uninstall.ps1* script. The script loads parameters from *parameters.ps1* and *parameters-local.ps1* files.
 
 ## [ToDo] How to deploy Square code into your locall Sitecore installation
 
