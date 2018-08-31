@@ -88,8 +88,9 @@ Square uses HPP developed by Richard Szalay. It has configured following feature
 * When you build Website project it automatically publish your website. It is much faster than build project and then publishing.
 * Delayed transformation of web.config file: The Web.Helix.config file is applayed over Web.config file in your publish folder.
 * If you publish outside local environment, for example on VSTS the Web.Helix.config file is included in build package, so you can apply it over Web.config in your enviroments.*
-* 
-## [ToDo] How to deploy Square code into your locall Sitecore installation
+* Sitecore dlls and Website project dlls are excluded from publish.
+
+## [ToDo] How to deploy Square code into your local Sitecore installation
 
 1. Open Square.sln. 
 2. Create publishsettings.targets.user file and set publishUrl. Set it as a path instead of hostname. It will speed up publishing a bit.
