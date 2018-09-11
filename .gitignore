@@ -292,3 +292,4 @@ install/license.xml
 install/zips/*
 install/parameters-local.ps1
 lib/license.xml
+Square.Dev.Local.config
