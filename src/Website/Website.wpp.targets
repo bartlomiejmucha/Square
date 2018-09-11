@@ -1,0 +1,7 @@
+<Project>
+    <PropertyGroup>
+        <UnicornControlPanelUrl>https://square.sc/unicorn.aspx</UnicornControlPanelUrl>
+        <UnicornSharedSecret>zUcdjtAKn21fEXIqFnrSemWPWaAwsWzhgFDWYMBiemWPWaAwsWzhgFDWYMBi1234</UnicornSharedSecret>
+    </PropertyGroup>
+    <Import Project="./Website.wpp.targets.user" Condition="exists('./Website.wpp.targets.user')" />
+</Project>
