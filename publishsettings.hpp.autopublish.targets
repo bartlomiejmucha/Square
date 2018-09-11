@@ -8,6 +8,7 @@
             $(AutoPublishDependsOn);
             WebPublish
         </AutoPublishDependsOn>
+
     </PropertyGroup>
 
     <Target Name="AutoPublish" AfterTargets="Build" DependsOnTargets="$(AutoPublishDependsOn)">

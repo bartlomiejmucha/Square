@@ -124,8 +124,11 @@
     <Error Condition="!Exists('..\..\packages\Microsoft.CodeDom.Providers.DotNetCompilerPlatform.2.0.0\build\net46\Microsoft.CodeDom.Providers.DotNetCompilerPlatform.props')" Text="$([System.String]::Format('$(ErrorText)', '..\..\packages\Microsoft.CodeDom.Providers.DotNetCompilerPlatform.2.0.0\build\net46\Microsoft.CodeDom.Providers.DotNetCompilerPlatform.props'))" />
     <Error Condition="!Exists('..\..\packages\Microsoft.Net.Compilers.2.9.0\build\Microsoft.Net.Compilers.props')" Text="$([System.String]::Format('$(ErrorText)', '..\..\packages\Microsoft.Net.Compilers.2.9.0\build\Microsoft.Net.Compilers.props'))" />
     <Error Condition="!Exists('..\..\packages\RichardSzalay.Helix.Publishing.WebRoot.1.2.0\build\RichardSzalay.Helix.Publishing.WebRoot.targets')" Text="$([System.String]::Format('$(ErrorText)', '..\..\packages\RichardSzalay.Helix.Publishing.WebRoot.1.2.0\build\RichardSzalay.Helix.Publishing.WebRoot.targets'))" />
+    <Error Condition="!Exists('..\..\packages\Unicorn.MSBuild.1.0.0-beta\build\Unicorn.MSBuild.targets')" Text="$([System.String]::Format('$(ErrorText)', '..\..\packages\Unicorn.MSBuild.1.0.0-beta\build\Unicorn.MSBuild.targets'))" />
   </Target>
   <Import Project="..\..\packages\RichardSzalay.Helix.Publishing.WebRoot.1.2.0\build\RichardSzalay.Helix.Publishing.WebRoot.targets" Condition="Exists('..\..\packages\RichardSzalay.Helix.Publishing.WebRoot.1.2.0\build\RichardSzalay.Helix.Publishing.WebRoot.targets')" />
+  <Import Project="..\..\packages\Unicorn.MSBuild.1.0.0-beta\build\Unicorn.MSBuild.targets" Condition="Exists('..\..\packages\Unicorn.MSBuild.1.0.0-beta\build\Unicorn.MSBuild.targets')" />
+  <!--<Import Project="..\..\Square.HPP.targets" Condition="Exists('..\..\Square.HPP.targets')" /> -->
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.
   <Target Name="BeforeBuild">
